@@ -38,9 +38,10 @@ const Timer = () => {
        
     }
 
-    function resetTimer() {}
+    function resetTimer() {
         setPassedTime(0);
         setIsRunning(false);
+    }
 
     function formatTime() {
 
@@ -48,6 +49,11 @@ const Timer = () => {
         let minutes = Math.floor((passedTime / 1000 / 60) % 60);
         let seconds = Math.floor((passedTime / 1000) % 60);
         let milliseconds = Math.floor((passedTime % 1000) / 10);
+
+        hours = String(hours).padStart(2, '0');
+        minutes = String(minutes).padStart(2, '0');
+        seconds = String(seconds).padStart(2, '0');
+        milliseconds = String(milliseconds).padStart(2, '0');
 
         return `${minutes}:${seconds}:${milliseconds}`;
     }
