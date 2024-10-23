@@ -8,7 +8,7 @@ body {
 .timer {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  
   border: 5px solid;
   border-radius: 50px;
   background-color: white;  
@@ -24,8 +24,7 @@ body {
   }
      
   .controls {
-    display: flex;
-    justify-content: center;
+    justify-content: start;
 
     button {
       font-size: 1.5rem;
@@ -63,5 +62,13 @@ body {
     }
   }
 
+  .checkbox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    
+
+  
+}
 
 }

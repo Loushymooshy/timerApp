@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import Timer from './components/Timer'
+import Timer from './components/EasyTimer'
+import StartButton from './components/StartButton'
+import TimerButton from './components/TimerButton'
 import './App.css'
 
 function App() {
@@ -8,6 +10,8 @@ function App() {
   return (
     <>
      <Timer />
+     <StartButton />
+     <TimerButton />
     </>
   )
 }

@@ -1,74 +1,78 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
+import EasyTimer from 'easytimer.js';
 
 const Timer = () => {
-
-    // Check if timer is running
-    const [isRunning, setIsRunning] = useState(false);
-
-    //track how much time has passed
-    const [passedTime, setPassedTime] = useState(0);
-
-    //clear intervals
     const intervalRef = useRef(null);
-
-    //Get current time, stored in ref
-    const startTimeRef = useRef(null);
+    const [startValues, setStartValues] = useState({ minutes: 25, seconds: 0 });
+    const [intervalChecked, setIntervalChecked] = useState(false);
+    const [breakChecked, setBreakChecked] = useState(false);
 
     useEffect(() => {
+        intervalRef.current = new EasyTimer();
 
-        if(isRunning) {
-            intervalRef.current = setInterval(() => {
-                setPassedTime(Date.now() - startTimeRef.current);
-            }, 10);
-        }
+        intervalRef.current.addEventListener('secondsUpdated', function (e) {
+            document.querySelector('.display').innerHTML = intervalRef.current.getTimeValues().toString();
+        });
+
+        intervalRef.current.addEventListener('targetAchieved', function (e) {
+            if (intervalChecked) {
+                if (breakChecked) {
+                    console.log('Break time');
+                    intervalRef.current.start({ countdown: true, startValues: { minutes: 5, seconds: 0 } });
+                    intervalRef.current.addEventListener('targetAchieved', function (e) {
+                        console.log('Break over, starting main timer again');
+                        intervalRef.current.start({ countdown: true, startValues });
+                    }, { once: true });
+                } else {
+                    console.log('1 interval completed');
+                    intervalRef.current.start({ countdown: true, startValues });
+                }
+            } else {
+                document.querySelector('.display').innerHTML = 'KABOOM!!';
+            }
+        });
 
         return () => {
-            clearInterval(intervalRef.current);
-        }
-
-    }, [isRunning])
+            intervalRef.current.stop();
+        };
+    }, [intervalChecked, breakChecked, startValues]);
 
     function startTimer() {
-       setIsRunning(true);
-       startTimeRef.current = Date.now() - passedTime; 
+        intervalRef.current.start({ countdown: true, startValues });
     }
 
     function stopTimer() {
-    setIsRunning(false);
-       
+        intervalRef.current.stop();
+        intervalRef.current.reset();
+        document.querySelector('.display').innerHTML = `${startValues.minutes}`;
     }
 
-    function resetTimer() {
-        setPassedTime(0);
-        setIsRunning(false);
+
+    function handleIntervalCheckboxChange(event) {
+        setIntervalChecked(event.target.checked);
     }
 
-    function formatTime() {
-
-        let hours = Math.floor( passedTime / (1000 * 60 * 60))
-        let minutes = Math.floor((passedTime / 1000 / 60) % 60);
-        let seconds = Math.floor((passedTime / 1000) % 60);
-        let milliseconds = Math.floor((passedTime % 1000) / 10);
-
-        hours = String(hours).padStart(2, '0');
-        minutes = String(minutes).padStart(2, '0');
-        seconds = String(seconds).padStart(2, '0');
-        milliseconds = String(milliseconds).padStart(2, '0');
-
-        return `${minutes}:${seconds}:${milliseconds}`;
+    function handleBreakCheckboxChange(event) {
+        setBreakChecked(event.target.checked);
     }
 
-  return (
-
-    <div className='timer'>
-        <div className='display'>{formatTime()} </div>
-        <div className='controls'>
-            <button onClick={startTimer} className='start-button'>Start</button>
-            <button onClick={stopTimer} className='stop-button'>Stop</button>
-            <button onClick={resetTimer} className='reset-button'>Reset</button>
+    return (
+        <div className='timer'>
+            <div className='display'>{`${startValues.minutes}`}</div>
+            <div className='controls'>
+                <button onClick={startTimer} className='start-button'>Start</button>
+                <button onClick={stopTimer} className='stop-button'>Stop</button>
+                <label className='checkbox'>
+                    <input type="checkbox" checked={intervalChecked} onChange={handleIntervalCheckboxChange} />
+                    Interval
+                </label>
+                <label  className='checkbox' >
+                    <input type="checkbox" checked={breakChecked} onChange={handleBreakCheckboxChange} />
+                    Break
+                </label>
+            </div>
         </div>
-    </div>
-  )
-}
+    );
+};
 
-export default Timer
+export default Timer;

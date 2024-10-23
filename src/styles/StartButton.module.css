@@ -1,0 +1,20 @@
+.startButton {
+
+    background-color: white;
+    font-size: 2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding: 10px 70px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: 2px solid black;
+  
+
+}
+
+
+.startButton:hover {
+    background-color: hsl(0, 0%, 95%);
+    transform: scale(1.01);
+}
