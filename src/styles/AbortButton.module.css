@@ -1,28 +1,22 @@
-.startButton {
-    font-size: 1.5rem;
+.abortButton {
+    font-size: 1rem;
     font-weight: bold;
-    padding: 10px 20px;
-    margin: 5px;
+    padding: 15px 20px;
     min-width: 125px;
-    border: 2px solid hsl(0, 0%, 13%,);
+    border: 2px solid hsl(hsl(0, 0%, 45%));
     border-radius: 6px;
     cursor: pointer;
-    color: hsl(0, 0%, 13%,);
+    color: hsl(hsl(0, 0%, 45%));
     transition: background-color 0.5s ease;
     text-transform:uppercase;
     font-family: 'PT Sans', sans-serif;
     letter-spacing: 0.09em;
-    width: 279px;
+    
   }
   
-.active-button {
-    font-size: 1rem;
-    color: grey;
-    border: 2px solid grey;
-}
-
-
-.startButton:hover {
+.abortButton:hover {
     background-color: hsl(0, 0%, 95%);
     transform: scale(1.01);
+    
 }
+
