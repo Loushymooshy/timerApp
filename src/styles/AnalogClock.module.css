@@ -1,20 +1,19 @@
 .analogClock {
     position: relative;
-    background-color: brown;
     
-  }
-  
-  .clock-face {
+}
+
+.clock-face {
     width: 100%;
     height: 100%;
     margin: 100px;
-    background-color: brown;
-  }
-  
-  .minute-hand, .second-hand {
+    
+}
+
+.minHand, .secHand {
     position: absolute;
-    top: 0;
+    top: 50%;
     left: 50%;
-    transform-origin: bottom center;
+    transform-origin: center;
     transform: translate(-50%, -100%);
-  }
+}

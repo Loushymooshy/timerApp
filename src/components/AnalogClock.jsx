@@ -12,22 +12,22 @@ const AnalogClock = ({ minutes, seconds, isActive, timeUp }) => {
     <div className={styles.analogClock}>
       {isActive && (
         <>
-          <img src={minutesMarks} alt="minutes" className="clockFace" />
+          <img src={minutesMarks} alt="minutes" className={styles.clockFace} />
           <img
             src={minuteHand}
             alt="minute hand"
-            className="minHand"
-            style={{ transform: `rotate(${minuteAngle}deg) translate(-50%, -100%)` }}
+            className={styles.minHand} 
+            
           />
           <img
             src={secondsHand}
             alt="second hand"
-            className="secHand"
-            style={{ transform: `rotate(${secondAngle}deg) translate(-50%, -100%)` }}
+            className={styles.secHand} 
+            
           />
         </>
       )}
-      {timeUp && <span className="timesUpMessage">Times up!</span>}
+      {timeUp && <span className={styles.timesUpMessage}>Times up!</span>}
     </div>
   );
 };

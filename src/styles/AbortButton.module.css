@@ -1,12 +1,12 @@
 .abortButton {
     font-size: 1rem;
     font-weight: bold;
-    padding: 15px 20px;
+    padding: 10px;
     min-width: 125px;
-    border: 2px solid hsl(hsl(0, 0%, 45%));
+    border: 2px solid hsl(0, 0%, 45%);
     border-radius: 6px;
     cursor: pointer;
-    color: hsl(hsl(0, 0%, 45%));
+    color: hsl(0, 0%, 45%);
     transition: background-color 0.5s ease;
     text-transform:uppercase;
     font-family: 'PT Sans', sans-serif;
