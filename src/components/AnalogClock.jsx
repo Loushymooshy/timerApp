@@ -1,34 +1,46 @@
-import React from 'react';
-import minutesMarks from '../assets/minutes.svg'; // A circular image of marks that represents the clock face
-import minuteHand from '../assets/minuteHand.svg'; // The handle that moves and shows the minutes on the clock face
-import secondsHand from '../assets/secondsHand.svg'; // The handle that moves and shows the seconds on the clock face
-import styles from  '../styles/AnalogClock.module.css';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import minutesMarks from '../assets/minutes.svg';
+import minuteHand from '../assets/minuteHand.svg';
+import secondsHand from '../assets/secondsHand.svg';
+import styles from '../styles/AnalogClock.module.css';
 
 const AnalogClock = ({ minutes, seconds, isActive, timeUp }) => {
+  const [accumulatedSeconds, setAccumulatedSeconds] = useState(minutes * 60 + seconds);
+
+  useEffect(() => {
+    if (isActive) {
+      setAccumulatedSeconds(minutes * 60 + seconds);
+    }
+  }, [minutes, seconds, isActive]);
+
   const minuteAngle = (minutes / 60) * 360;
-  const secondAngle = (seconds / 60) * 360;
+  const secondAngle = (accumulatedSeconds / 60) * 360;
 
   return (
-    <div className={styles.analogClock}>
-      {isActive && (
-        <>
-          <img src={minutesMarks} alt="minutes" className={styles.clockFace} />
-          <img
-            src={minuteHand}
-            alt="minute hand"
-            className={styles.minHand} 
-            
-          />
-          <img
-            src={secondsHand}
-            alt="second hand"
-            className={styles.secHand} 
-            
-          />
-        </>
-      )}
-      {timeUp && <span className={styles.timesUpMessage}>Times up!</span>}
-    </div>
+    isActive && (
+      <div className={styles.analogClock}>
+        <img src={minutesMarks} alt="minutes" className={styles.clockFace} />
+        <motion.img
+          src={minuteHand}
+          alt="minute hand"
+          className={styles.minHand}
+          initial={{ rotate: `${minuteAngle}deg` }}
+          animate={{ rotate: `${minuteAngle}deg` }}
+          style={{ originX: 0.5, originY: 0.95 }}
+          transition={{ type: 'spring', stiffness: 100, damping: 10 }}
+        />
+        <motion.img
+          src={secondsHand}
+          alt="second hand"
+          className={styles.secHand}
+          initial={{ rotate: `${secondAngle}deg` }}
+          animate={{ rotate: `${secondAngle}deg` }}
+          style={{ originX: 0.5, originY: 0.95 }}
+          transition={{ type: 'spring', stiffness: 100, damping: 15 }}
+        />
+      </div>
+    )
   );
 };
 
