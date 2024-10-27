@@ -1,17 +1,18 @@
 // LoadingScreen.js
 import React from 'react';
-import './LoadingScreen.module.css';
+import styles from '../styles/LoadingScreen.module.css';
+import logo from '../assets/logo.svg';
 
 const LoadingScreen = ({ onLogoClick }) => {
   return (
-    <div className="loading-screen">
+    <div className={styles.loadingScreen}>
       <img 
-        src="path/to/logo.png" 
-        alt="Logo" 
-        className="logo" 
+        src={logo}
+        alt="logo"
+        className={styles.logo} 
         onClick={onLogoClick} 
       />
-      <h1 className="slogan">Your Slogan Here</h1>
+      <h1 className={styles.slogan}>For all your timing needs</h1>
     </div>
   );
 };

@@ -1,0 +1,38 @@
+.eventBackground {
+    width: 100vw;
+    height: 100vh;
+    background-color:  hsla(0, 0%, 13%, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.timesUpMessage {
+    font-size: 2rem;
+    color: white;
+    text-align: center;
+    margin-top: 10%;
+    z-index: 2;
+    font-weight: bold;
+}
+
+.eclipse {
+    width: 300px; /* Adjust size as needed */
+    height: 300px; /* Adjust size as needed */
+    background: rgb(0, 255, 8); /* Color of the eclipse */
+    border-radius: 50%;
+    position: absolute; /* Position it absolutely */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-63%, -50%); /* Adjust for centering */
+    z-index: 1; /* Ensure it is behind the icon and message */
+    background: hsla(0, 0%, 100%, 0.04);
+
+}
+
+.icon {
+    
+    z-index: 2; /* Ensure it is in front of the eclipse */
+}

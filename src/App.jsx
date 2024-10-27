@@ -5,12 +5,16 @@ import React, { useState, useEffect } from 'react';
 import useTimer from 'easytimer-react-hook';
 import StartButton from './components/StartButton';
 import AbortButton from './components/AbortButton';
-import './App.css';
 import incrementIcon from './assets/increment.svg';
 import decrementIcon from './assets/decrement.svg';
 import MenuComponent from './components/MenuComponent';
 import AnalogClock from './components/AnalogClock';
 import DigitalTimer from './components/DigitalTimer';
+import LoadingScreen from './components/LoadingScreen';
+import alarmIcon from './assets/alarmIcon.svg';
+import pauseIcon from './assets/pauseIcon.svg';
+import AlarmView from './components/AlarmView';
+import PauseView from './components/PauseView';
 
 function App() {
   const [inputTime, setInputTime] = useState(1); // Default to 1 minute
@@ -21,6 +25,7 @@ function App() {
   const [timeUp, setTimeUp] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
   const [timerType, setTimerType] = useState('digital'); 
+  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
   const [timer, isTargetAchieved] = useTimer({
     countdown: true,
@@ -98,94 +103,111 @@ function App() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  
+  const handleLogoClick = () => {
+    setShowLoadingScreen(false);
+  };
+
   return (
     <div>
-      <div className='container'>
-        <MenuComponent
-          isMenuOpen={isMenuOpen}
-          toggleMenu={toggleMenu}
-          minutes={timer.getTimeValues().minutes}
-          seconds={timer.getTimeValues().seconds}
-          setTimerType={setTimerType} 
-        />
-        <div className={`display ${isMenuOpen ? 'hidden' : ''}`}>
-          {!isActive && !timeUp && (
-            <div className='spinner'>
-              <button className='arrow' onClick={decrementTime} disabled={isActive}>
-                <img src={decrementIcon} alt="Decrement" />
-              </button>
-              <input
-                className='inputTime'
-                type="number"
-                id="inputTime"
-                name="inputTime"
-                value={inputTime}
-                readOnly
-                placeholder="Enter time in minutes"
-                disabled={isActive}
-              />
-              <button className='arrow' onClick={incrementTime} disabled={isActive}>
-                <img src={incrementIcon} alt="Increment" />
-              </button>
-            </div>
-          )}
+      {showLoadingScreen ? (
+        // Render the loading screen if showLoadingScreen is true
+        <LoadingScreen onLogoClick={handleLogoClick} />
+      ) : (
+        
+        <div className='container'>
 
-          {timerType === 'digital' && (
-            <DigitalTimer
-              minutes={timer.getTimeValues().minutes}
-              seconds={timer.getTimeValues().seconds}
-              isActive={isActive}
-              timeUp={timeUp}
-            />
-          )}
-
-          {timerType === 'analog' && (
-            <AnalogClock
-              minutes={timer.getTimeValues().minutes}
-              seconds={timer.getTimeValues().seconds}
-              isActive={isActive}
-              timeUp={timeUp}
-            />
-          )}
-
-          {!isActive && !timeUp && (
-            <>
-              <div className="controls">
-                <div>
-                  <input className='box'
-                    type="checkbox"
-                    id="intervalCheck"
-                    name="intervalCheck"
-                    checked={intervalMode}
-                    onChange={(e) => setIntervalMode(e.target.checked)}
-                    disabled={isActive}
-                  />
-                  <label htmlFor="intervalCheck">Interval Mode</label>
-                </div>
-                <div>
-                  <input className='box'
-                    type="checkbox"
-                    id="breakCheck"
-                    name="breakCheck"
-                    checked={breakMode}
-                    onChange={(e) => setBreakMode(e.target.checked)}
-                    disabled={!intervalMode || isActive}
-                  />
-                  <label htmlFor="breakCheck">Interval + 5 Minute Break</label>
-                </div>
+        {timeUp && !isBreak && (
+          <AlarmView/>
+        )}
+        {isBreak && (
+          <PauseView remainingTime={timer.getTimeValues()} isBreak={isBreak} />
+        )}
+          <MenuComponent
+            isMenuOpen={isMenuOpen}
+            toggleMenu={toggleMenu}
+            minutes={timer.getTimeValues().minutes}
+            seconds={timer.getTimeValues().seconds}
+            setTimerType={setTimerType} 
+          />
+          <div className={`display ${isMenuOpen ? 'hidden' : ''}`}>
+            {!isActive && !timeUp && (
+              <div className='spinner'>
+                <button className='arrow' onClick={decrementTime} disabled={isActive}>
+                  <img src={decrementIcon} alt="Decrement" />
+                </button>
+                <input
+                  className='inputTime'
+                  type="number"
+                  id="inputTime"
+                  name="inputTime"
+                  value={inputTime}
+                  readOnly
+                  placeholder=""
+                  disabled={isActive}
+                />
+                <button className='arrow' onClick={incrementTime} disabled={isActive}>
+                  <img src={incrementIcon} alt="Increment" />
+                </button>
               </div>
-            </>
-          )}
-          <div className="button_container">
-            {!isActive && !timeUp ? (
-              <StartButton onClick={handleStart} text="Start Timer" />
-            ) : (
-              <AbortButton onClick={handleAbort} text={timeUp ? "Set new time" : "Abort Timer"} />
             )}
+
+            {!isBreak && timerType === 'digital' && (
+              <DigitalTimer
+                minutes={timer.getTimeValues().minutes}
+                seconds={timer.getTimeValues().seconds}
+                isActive={isActive}
+                timeUp={timeUp}
+              />
+            )}
+
+            {!isBreak && timerType === 'analog' && (
+              <AnalogClock
+                minutes={timer.getTimeValues().minutes}
+                seconds={timer.getTimeValues().seconds}
+                isActive={isActive}
+                timeUp={timeUp}
+              />
+            )}
+
+            {!isActive && !timeUp && (
+              <>
+                <div className="controls">
+                  <div>
+                    <input className='box'
+                      type="checkbox"
+                      id="intervalCheck"
+                      name="intervalCheck"
+                      checked={intervalMode}
+                      onChange={(e) => setIntervalMode(e.target.checked)}
+                      disabled={isActive}
+                    />
+                    <label htmlFor="intervalCheck">Interval Mode</label>
+                  </div>
+                  <div>
+                    <input className='box'
+                      type="checkbox"
+                      id="breakCheck"
+                      name="breakCheck"
+                      checked={breakMode}
+                      onChange={(e) => setBreakMode(e.target.checked)}
+                      disabled={!intervalMode || isActive}
+                    />
+                    <label htmlFor="breakCheck">Interval + 5 Minute Break</label>
+                  </div>
+                </div>
+              </>
+            )}
+            <div className="button_container">
+              {!isActive && !timeUp ? (
+                <StartButton onClick={handleStart} text="Start Timer" />
+              ) : (
+                <AbortButton onClick={handleAbort} text={timeUp ? "Set new time" : "Abort Timer"} />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      
+      )}
     </div>
   );
 }

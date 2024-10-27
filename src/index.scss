@@ -5,6 +5,7 @@ body {
   align-items: center;
   background-color: hsl(0, 0%, 95%);
   height: 100vh; 
+  width: auto;
   margin: 0; 
   font-family: 'PT Sans', sans-serif;
   letter-spacing: 0.09em;
@@ -14,6 +15,7 @@ body {
 .container {
   display: flex;
   flex-direction: column;
+  
   
   .display {
    
