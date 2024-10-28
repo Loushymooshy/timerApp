@@ -11,10 +11,11 @@ import MenuComponent from './components/MenuComponent';
 import AnalogClock from './components/AnalogClock';
 import DigitalTimer from './components/DigitalTimer';
 import LoadingScreen from './components/LoadingScreen';
-import alarmIcon from './assets/alarmIcon.svg';
-import pauseIcon from './assets/pauseIcon.svg';
 import AlarmView from './components/AlarmView';
 import PauseView from './components/PauseView';
+import BlackSlide from './components/animation/BlackSlide'; 
+
+
 
 function App() {
   const [inputTime, setInputTime] = useState(1); // Default to 1 minute
@@ -26,6 +27,7 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
   const [timerType, setTimerType] = useState('digital'); 
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  const [showBlackSlide, setShowBlackSlide] = useState(false); 
 
   const [timer, isTargetAchieved] = useTimer({
     countdown: true,
@@ -75,13 +77,19 @@ function App() {
       timer.removeEventListener('targetAchieved', handleTargetAchieved);
     };
   }, [intervalMode, breakMode, isBreak, inputTime, timer]);
+
   const handleStart = () => {
+    setShowBlackSlide(true); 
     setIsActive(true);
     setTimeUp(false);
     timer.start({
       countdown: true,
       startValues: { minutes: inputTime }
     });
+  };
+
+  const handleAnimationComplete = () => {
+    setShowBlackSlide(false); 
   };
 
   const handleAbort = () => {
@@ -116,7 +124,7 @@ function App() {
       ) : (
         
         <div className='container'>
-
+        {showBlackSlide && <BlackSlide onAnimationComplete={handleAnimationComplete} />}
         {timeUp && !isBreak && (
           <AlarmView/>
         )}

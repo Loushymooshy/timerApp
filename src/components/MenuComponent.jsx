@@ -8,8 +8,8 @@ const MenuComponent = ({ isMenuOpen, toggleMenu, minutes, seconds, setTimerType,
 
   const selectTimerType = (type) => {
     setLocalTimerType(type);
-    setTimerType(type); // Update the timer type in the App component
-    toggleMenu(); // Close menu after selection
+    setTimerType(type); 
+    toggleMenu(); 
   };
 
   return (
