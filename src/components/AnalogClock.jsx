@@ -14,8 +14,8 @@ const AnalogClock = ({ minutes, seconds, isActive, timeUp }) => {
     }
   }, [minutes, seconds, isActive]);
 
-  const minuteAngle = (minutes / 60) * 360;
-  const secondAngle = (accumulatedSeconds / 60) * 360;
+  const minuteRotation = (minutes / 60) * 360;
+  const secondRotation = (accumulatedSeconds / 60) * 360;
 
   return (
     isActive && (
@@ -25,8 +25,8 @@ const AnalogClock = ({ minutes, seconds, isActive, timeUp }) => {
           src={minuteHand}
           alt="minute hand"
           className={styles.minHand}
-          initial={{ rotate: `${minuteAngle}deg` }}
-          animate={{ rotate: `${minuteAngle}deg` }}
+          initial={{ rotate: `${minuteRotation}deg` }}
+          animate={{ rotate: `${minuteRotation}deg`}}
           style={{ originX: 0.5, originY: 0.95 }}
           transition={{ type: 'spring', stiffness: 100, damping: 10 }}
         />
@@ -34,8 +34,8 @@ const AnalogClock = ({ minutes, seconds, isActive, timeUp }) => {
           src={secondsHand}
           alt="second hand"
           className={styles.secHand}
-          initial={{ rotate: `${secondAngle}deg` }}
-          animate={{ rotate: `${secondAngle}deg` }}
+          initial={{ rotate: `${secondRotation}deg` }}
+          animate={{ rotate: `${secondRotation}deg`}}
           style={{ originX: 0.5, originY: 0.95 }}
           transition={{ type: 'spring', stiffness: 100, damping: 15 }}
         />
