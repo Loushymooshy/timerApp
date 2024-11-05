@@ -14,6 +14,7 @@ import LoadingScreen from './components/LoadingScreen';
 import AlarmView from './components/AlarmView';
 import PauseView from './components/PauseView';
 import BlackSlide from './components/animation/BlackSlide'; 
+import { motion } from 'framer-motion';
 
 
 

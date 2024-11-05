@@ -77,20 +77,28 @@ body {
   
   
   .arrow {
+    width: 64px;
+    height: 64px;
     cursor: pointer;
     border: none;
     background: none; 
-    font-size: rem;
+    font-size: 1rem;
     display: flex;
     align-items: center; 
+    border-radius: 50px; 
+    outline: none; 
+    -webkit-tap-highlight-color: rgba(128, 128, 128, 0.5);
+
+
+    
   }
 }
 
 .box{
 
   padding: 10px;
-  transform: scale(1.8); // Adjust the scale as needed
-  margin: 0px 20px 25px 0px; // Add some space between the checkbox and the label
+  transform: scale(1.8);
+  margin: 0px 20px 25px 0px;
   
 }
 
